@@ -9,5 +9,4 @@ public interface IFunctions {
     double[] wspolrzedneDO(String miastoDO);
     double[] wspolrzedneOD(String miastoOD);
     double obliczOdleglosc(double[] wspolrzedneOD, double[] wspolrzedneDO);
-    //void RuchomyTekst(JLabel ruchomyTekst);
 }

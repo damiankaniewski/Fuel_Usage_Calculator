@@ -5,9 +5,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
-import java.io.*;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -49,7 +46,6 @@ public class KalkulatorPaliwa extends JFrame {
     private JButton oblicz_trase;
     private JButton podwojTrase;
     private JButton podzielTrase;
-
 
     double[] wspolrzedneOD;
     double[] wspolrzedneDO;
@@ -159,27 +155,33 @@ public class KalkulatorPaliwa extends JFrame {
         obliczButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Function function = new Function();
 
-                if (spalanieText.getText().isEmpty() || dlugosctrasyText.getText().isEmpty() || kosztpaliwaText.getText().isEmpty()) {
-                    warning.setText("Podaj wartosci!");
-                    kosztpaliwawynikText.setText("0,00 zl");
-                    kosztjednaosobaText.setText("0,00 zl");
-                } else {
-                    warning.setText(null);
+                    Function function = new Function();
+
+                try {
+                    if (spalanieText.getText().isEmpty() || dlugosctrasyText.getText().isEmpty() || kosztpaliwaText.getText().isEmpty()) {
+                        warning.setText("Podaj wartosci!");
+                        kosztpaliwawynikText.setText("0,00 zl");
+                        kosztjednaosobaText.setText("0,00 zl");
+                        throw new EmptyFieldException();
+                    } else {
+                        warning.setText(null);
+                    }
+                    double spalanie = Double.parseDouble(spalanieText.getText().replaceAll(",", "."));
+                    double dlugosctrasy = Double.parseDouble(dlugosctrasyText.getText().replaceAll(",", "."));
+                    double kosztpaliwa = Double.parseDouble(kosztpaliwaText.getText().replaceAll(",", "."));
+                    double dodatkoweKoszty = Double.parseDouble(dodatkowekoszty.getText().replaceAll(",", "."));
+                    int osoby = (int) liczbaosob.getValue();
+
+                    double kosztPrzejazd = function.KosztPaliwaWynik(spalanie, dlugosctrasy, kosztpaliwa) + dodatkoweKoszty;
+                    double kosztOsoby = function.KosztJednaosoba(osoby, spalanie, dlugosctrasy, kosztpaliwa) + dodatkoweKoszty / osoby;
+
+                    kosztpaliwawynikText.setText(String.format("%.2f", kosztPrzejazd) + " zl");
+                    kosztjednaosobaText.setText(String.format("%.2f", kosztOsoby) + " zl");
+
+                } catch (EmptyFieldException ex) {
                 }
-                double spalanie = Double.parseDouble(spalanieText.getText().replaceAll(",", "."));
-                double dlugosctrasy = Double.parseDouble(dlugosctrasyText.getText().replaceAll(",", "."));
-                double kosztpaliwa = Double.parseDouble(kosztpaliwaText.getText().replaceAll(",", "."));
-                double dodatkoweKoszty = Double.parseDouble(dodatkowekoszty.getText().replaceAll(",", "."));
-                //keylogger.start();
-                int osoby = (int) liczbaosob.getValue();
 
-                double kosztPrzejazd = function.KosztPaliwaWynik(spalanie, dlugosctrasy, kosztpaliwa) + dodatkoweKoszty;
-                double kosztOsoby = function.KosztJednaosoba(osoby, spalanie, dlugosctrasy, kosztpaliwa) + dodatkoweKoszty / osoby;
-
-                kosztpaliwawynikText.setText(String.format("%.2f", kosztPrzejazd) + " zl");
-                kosztjednaosobaText.setText(String.format("%.2f", kosztOsoby) + " zl");
             }
         });
         wybierz95.addActionListener(new ActionListener() {

@@ -196,16 +196,4 @@ public class Function implements IFunctions {
         }
 
     }
-    /*@Override
-    public void RuchomyTekst(JLabel ruchomyTekst){
-        String[] ruchomyTekstString = "K A L K U L A T O R   P A L I W A".split(" ");
-        for (int i=0;i<18;i++){
-            System.out.println(ruchomyTekstString[i]);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
 }
