@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jSoup">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jsoup-1.15.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
