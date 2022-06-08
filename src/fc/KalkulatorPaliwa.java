@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import fc.exceptions.EmptyFieldException;
+import fc.exceptions.*;
 import fc.priceprovider.PriceProvider;
 
 import fc.functions.Function;
@@ -104,11 +104,18 @@ public class KalkulatorPaliwa extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Function function = new Function();
-                double odleglosc = function.obliczOdleglosc(wspolrzedneOD, wspolrzedneDO);
-                if (miastaDO.getSelectedValue() == "---WYCZYSC---" || miastaOD.getSelectedValue() == "---WYCZYSC---" || miastaOD.getSelectedValue() == null || miastaDO.getSelectedValue() == null) {
-                    dlugosctrasyText.setText(null);
-                } else {
-                    dlugosctrasyText.setText(String.format("%.2f", odleglosc));
+                try {
+
+                    if (miastaDO.getSelectedValue() == null || miastaOD.getSelectedValue() == null)
+                        throw new EmptyRouteException();
+                    double odleglosc = function.obliczOdleglosc(wspolrzedneOD, wspolrzedneDO);
+                    if (miastaDO.getSelectedValue() == "---WYCZYSC---" || miastaOD.getSelectedValue() == "---WYCZYSC---" || miastaOD.getSelectedValue() == null || miastaDO.getSelectedValue() == null) {
+                        dlugosctrasyText.setText(null);
+                    } else {
+                        dlugosctrasyText.setText(String.format("%.2f", odleglosc));
+                    }
+                } catch (Exception ex) {
+
                 }
 
 
@@ -156,7 +163,7 @@ public class KalkulatorPaliwa extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                    Function function = new Function();
+                Function function = new Function();
 
                 try {
                     if (spalanieText.getText().isEmpty() || dlugosctrasyText.getText().isEmpty() || kosztpaliwaText.getText().isEmpty()) {
